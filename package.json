@@ -52,5 +52,9 @@
     "nodemon": "1.10.2",
     "rimraf": "2.5.4",
     "should": "11.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Burtonium/node-from-scratch"
   }
 }
