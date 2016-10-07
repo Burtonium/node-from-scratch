@@ -1,0 +1,56 @@
+{
+  "name": "training-express",
+  "version": "1.0.1",
+  "description": "Suh dude",
+  "main": "app.js",
+  "scripts": {
+    "prestart": "npm run lint",
+    "start": "npm run watch",
+    "start:dev": "echo 'not implemented'",
+    "stop": "echo 'stopping'",
+    "restart": "echo 'restarting'",
+    "test": "mocha src/test/test.js -u bdd -R spec",
+    "pretest": "npm run lint",
+    "posttest": "echo 'after'",
+    "lint": "jshint .",
+    "precompile": "rimraf dist/*",
+    "compile": "npm run compile:css",
+    "compile:css": "node-sass --include-path scss client/scss/styles.scss public/css/styles.css",
+    "watch": "npm run watch:css & npm run watch:test & npm run watch:server & npm run watch:browser",
+    "watch:css": "nodemon -e scss -x \"npm run compile:css\"",
+    "watch:test": "npm run test -- -w -R min",
+    "watch:server": "nodemon --ignore client --ignore public app.js",
+    "watch:browser": "livereload \"src/views, public\" -p 8081 & nodemon -w client/js -x \"npm run build\"",
+    "build": "npm run build:bundle",
+    "build:bundle": "browserify ./client/js/ayylmao.js -o ./public/js/bundle.js",
+    "version:major": "npm version major",
+    "version:minor": "npm version minor",
+    "version:patch": "npm version patch"
+  },
+  "jshintConfig": {
+    "node": true,
+    "mocha": true
+  },
+  "babel": {
+    "presets": [
+      "latest"
+    ]
+  },
+  "author": "Matt Fucking Burton",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.14.0"
+  },
+  "devDependencies": {
+    "babel-cli": "6.16.0",
+    "babel-preset-latest": "6.16.0",
+    "browserify": "13.1.0",
+    "jshint": "2.9.3",
+    "livereload": "0.5.0",
+    "mocha": "3.1.0",
+    "node-sass": "3.10.1",
+    "nodemon": "1.10.2",
+    "rimraf": "2.5.4",
+    "should": "11.1.0"
+  }
+}
