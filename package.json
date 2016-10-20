@@ -25,10 +25,10 @@
     "version:minor": "npm version minor",
     "version:patch": "npm version patch",
     "push:origin": "git push --tags origin HEAD:master",
-    "push:live": "git push live master",
+    "push:live": "git push production master",
     "push": "npm run push:origin && npm run push:live",
     "launch:prod": "open https://burtonize.me",
-    "deploy:prod": "npm run test:deploy -s && npm run build -s && npm run version:patch && npm run push && npm run launch:prod",
+    "deploy:prod" : "time(bash ./scripts/deployProd.sh)",
     "test:deploy": "npm t -- -R dot"
   },
   "jshintConfig": {
