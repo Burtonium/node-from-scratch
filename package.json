@@ -26,7 +26,9 @@
     "version:major": "npm version major",
     "version:minor": "npm version minor",
     "version:patch": "npm version patch",
-    "push:origin" : "git push --tags origin HEAD:master"
+    "push:origin" : "git push --tags origin HEAD:master",
+    "push:live" : "echo \"Not implemented yet\"",
+    "launch:prod": "open https://burtonize.me"
   },
   "jshintConfig": {
     "node": true,
@@ -57,5 +59,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Burtonium/node-from-scratch"
+  },
+  "engines": {
+    "node": "~4.5.0",
+    "npm": "~2.15.9"
   }
 }
