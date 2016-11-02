@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "npm run lint",
     "start": "npm run watch",
-    "start:dev": "echo 'not implemented'",
+    "start:dev": "npm run watch && npm run start:dev",
     "stop": "echo 'stopping'",
     "test": "mocha src/test/test.js -u bdd -R spec",
     "pretest": "npm run lint",
@@ -28,7 +28,8 @@
     "push:live": "git push production master",
     "push": "npm run push:origin && npm run push:live",
     "launch:prod": "open https://burtonize.me",
-    "deploy:prod" : "time(bash ./scripts/deployProd.sh)",
+    "launch:dev": "open https://node-from-scratch-burtonium.c9users.io",
+    "deploy:prod": "time(bash ./scripts/deployProd.sh)",
     "test:deploy": "npm t -- -R dot"
   },
   "jshintConfig": {
@@ -40,10 +41,12 @@
       "latest"
     ]
   },
-  "author": "Matt Fucking Burton",
+  "author": "Matt Burton",
   "license": "ISC",
   "dependencies": {
-    "express": "4.14.0"
+    "express": "4.14.0",
+    "knex": "0.12.6",
+    "pg": "6.1.0"
   },
   "devDependencies": {
     "babel-cli": "6.16.0",
