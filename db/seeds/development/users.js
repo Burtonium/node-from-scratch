@@ -7,7 +7,7 @@ exports.seed = function(knex, Promise) {
       knex(t).insert({
         username: 'user' + i,
         email: 'user' + i + '@burtonize.me',
-        password: ''
+        password: 'password'
       })
     );
   }

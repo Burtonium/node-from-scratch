@@ -14,6 +14,21 @@ module.exports = {
       directory: __dirname + '/db/seeds/development'
     }
   },
+  
+  test: {
+    client: 'postgres',
+    connection: {
+      database: 'test',
+      user:     'ubuntu',
+      password: 'ayylmao'
+    },
+    migrations: {
+      directory: __dirname + '/db/migrations'
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds/development'
+    }
+  },
 
   production: {
     client: 'postgresql',
