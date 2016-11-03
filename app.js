@@ -2,9 +2,12 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 8080;
 var api = require('./routes/api');
+const bodyParser = require('body-parser');
 
 app.use(express.static('public'));
 app.use(express.static('public/views'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 app.use('/api/v1/', api);
 
 if (!module.parent) {

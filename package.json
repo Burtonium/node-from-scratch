@@ -52,6 +52,7 @@
   "devDependencies": {
     "babel-cli": "6.16.0",
     "babel-preset-latest": "6.16.0",
+    "body-parser": "1.15.2",
     "browserify": "13.1.0",
     "chai": "3.5.0",
     "chai-http": "3.0.0",

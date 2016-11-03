@@ -67,4 +67,43 @@ describe('API Routes', function() {
          });
       });
    });
+
+   describe('POST /api/v1/users', function() {
+      it('should add a user', function(done) {
+         var user = {
+            username: 'test_user',
+            email: 'test@test.me',
+            password: 'you shall not pass',
+            address: 'No where street'
+         };
+         chai.request(app)
+            .post('/api/v1/users')
+            .send(user)
+            .end(function(err, res) {
+               expect(err).to.be.a('null');
+               res.should.have.status(200);
+               res.should.be.json; // jshint ignore:line
+               res.body.should.be.a('object');
+               res.body.should.have.property('id');
+               res.body.id.should.equal(101);
+               
+               res.body.should.have.property('username');
+               res.body.username.should.equal(user.username);
+               
+               res.body.should.have.property('email');
+               res.body.email.should.equal(user.email);
+               
+               res.body.should.have.property('password');
+               res.body.password.should.equal(user.password);
+               
+               res.body.should.have.property('address');
+               res.body.address.should.equal(user.address);
+               
+               res.body.should.have.property('created');
+               res.body.created.should.not.equal('');
+               done();
+            });
+      });
+   });
+
 });
