@@ -20,7 +20,7 @@
     "watch:server": "nodemon --ignore client --ignore public app.js",
     "watch:browser": "livereload \"src/views, public/css\" -p 8081 & nodemon -w client/js -x \"npm run build\"",
     "build": "npm run build:bundle",
-    "build:bundle": "echo 'building bundle",
+    "build:bundle": "echo 'building bundle not implemented'" ,
     "version:major": "npm version major",
     "version:minor": "npm version minor",
     "version:patch": "npm version patch",
