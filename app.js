@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 app.use(express.static('public'));
 app.use(express.static('public/views'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-app.use('/api/v1/', api);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/', api);
 
 if (!module.parent) {
     app.listen(port, function(err) {

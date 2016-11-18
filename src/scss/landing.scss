@@ -1,0 +1,42 @@
+html {
+    background: url('../images/bg.png') no-repeat center center fixed;
+    -webkit-background-size: cover; /* For WebKit*/
+    -moz-background-size: cover;    /* Mozilla*/
+    -o-background-size: cover;      /* Opera*/
+    background-size: cover;         /* Generic*/
+    z-index: 1;
+}
+
+body {
+    background-color: rgba(0,0,0,0);
+}
+
+.main.container {
+    padding:50px;
+    height: 100%;
+}
+
+.login-form {
+    width:40%;
+    margin: 0 auto;
+    color: white;
+    border-radius:5px;
+    background-color: rgba(9, 48, 72, 0.4);
+    box-shadow:0 7px 15px rgba(0, 0, 0, 0.25);
+    padding: 20px 35px;
+    z-index: 2;
+}
+
+footer {
+	background-color:#2e2e2e;
+	bottom:0;
+	color:#7e7e7e;
+	padding-top:6px;
+	position:fixed;
+	text-align:center;
+	width:100%;
+}
+
+.padded-top {
+    padding-top:10px;
+}

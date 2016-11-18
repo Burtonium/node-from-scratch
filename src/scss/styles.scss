@@ -1,0 +1,14 @@
+/* Garago theme */
+$garago-blue: #419ed1;
+$garago-more-blue: #2885B8;
+$garago-darker-blue: #0E6B9E;
+
+.btn-primary {
+    background-color: $garago-blue;
+}
+.btn-primary:active {
+    background-color: $garago-darker-blue;
+}
+.btn-primary:hover {
+    background-color: $garago-darker-blue;
+}

@@ -106,4 +106,75 @@ describe('API Routes', function() {
       });
    });
 
+   describe('PUT /api/v1/users/:id', function() {
+      it('should update a user', function(done) {
+         var userId = 1;
+         var user = {
+            username: 'updated_user',
+            email: 'updated@test.me',
+            address: 'Updated address'
+         };
+         chai.request(app)
+            .put('/api/v1/users/' + userId)
+            .send(user)
+            .end(function(err, res) {
+               expect(err).to.be.a('null');
+               res.body.should.have.property('id');
+               res.body.id.should.equal(userId);
+               
+               res.body.should.have.property('username');
+               res.body.username.should.equal(user.username);
+               
+               res.body.should.have.property('email');
+               res.body.email.should.equal(user.email);
+               
+               res.body.should.have.property('address');
+               res.body.address.should.equal(user.address);
+               
+               res.body.should.have.property('created');
+               res.body.created.should.not.equal('');
+               done();
+            });
+      });
+   
+      it('should not update the id', function(done) {
+         chai.request(app)
+            .put('/api/v1/users/1')
+            .send({
+               id: 20,
+               username: 'suh',
+               email: ''
+            })
+         .end(function(err, res) {
+            expect(err).to.not.be.a('null');
+            res.should.have.status(422);
+            res.should.be.json; // jshint ignore:line
+            res.body.should.be.a('object');
+            res.body.should.have.property('error');
+            done();
+         });
+      });
+   });
+   
+   describe('DELETE /api/v1/users/:id', function() {
+      it('should delete a user', function(done) {
+         var userId = 5;
+         chai.request(app)
+            .delete('/api/v1/users/' + userId)
+            .end(function(error, response) {
+               expect(error).to.be.a('null');
+               response.should.have.status(200);
+               response.should.be.json; // jshint ignore:line
+               response.body.should.be.a('object');
+               response.body.should.have.property('id');
+               response.body.id.should.be.equal(userId);
+               chai.request(app)
+                  .get('/api/v1/users/' + userId)
+                  .end(function(err, res) {
+                     console.log(res);
+                     res.should.have.status(404);
+                  });
+            });
+      });
+   });
 });
