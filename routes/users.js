@@ -1,8 +1,17 @@
 const router = require('express').Router();
-const queries = require('../db/queries/users');
+const users = require('../db/queries/users');
+
+router.use(function(req, res, next) {
+    if (!req.user && process.env.NODE_ENV != 'test') {
+        res.redirect('/');
+    }
+    else {
+        next();
+    }
+});
 
 router.get('/', function(req, res, next) {
-    queries.getAllUsers()
+    users.get()
         .then(function(users) {
             res.status(200).json(users);
         })
@@ -12,12 +21,15 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-    queries.getUser(req.params.id)
+    users.where({
+            id: req.params.id
+        }).first()
         .then(function(user) {
             if (user) {
                 res.status(200).json(user);
-            } else {
-                res.status(404);
+            }
+            else {
+                res.sendStatus(404);
             }
         })
         .catch(function(error) {
@@ -26,9 +38,11 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    queries.insertUser(req.body)
+    users.insert(req.body)
         .then(function(id) {
-            return queries.getUser(id);
+            return users.where({
+                id: id[0]
+            }).first();
         })
         .then(function(user) {
             res.status(200).json(user);
@@ -44,9 +58,11 @@ router.put('/:id', function(req, res, next) {
             error: 'You cannot update the id field'
         });
     }
-    queries.updateUser(req.params.id, req.body)
+    users.update(req.params.id, req.body)
         .then(function() {
-            return queries.getUser(req.params.id);
+            return users.where({
+                id: req.params.id
+            }).first();
         })
         .then(function(show) {
             res.status(200).json(show);
@@ -57,9 +73,11 @@ router.put('/:id', function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-    queries.getUser(req.params.id)
+    users.where({
+            id: req.params.id
+        }).first()
         .then(function(user) {
-            queries.deleteUser(req.params.id)
+            users.delete(req.params.id)
                 .then(function() {
                     res.status(200).json(user);
                 })

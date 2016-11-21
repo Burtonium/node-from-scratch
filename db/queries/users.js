@@ -8,8 +8,8 @@ function getAllUsers() {
     return Users().select();
 }
 
-function getUser(id) {
-    return Users().where('id', parseInt(id)).first();
+function where(keyPairs) {
+    return Users().where(keyPairs);
 }
 
 function insertUser(user) {
@@ -25,9 +25,9 @@ function deleteUser(id) {
 }
 
 module.exports = {
-    getAllUsers: getAllUsers,
-    getUser: getUser,
-    insertUser: insertUser,
-    updateUser: updateUser,
-    deleteUser: deleteUser
+    get: getAllUsers,
+    where: where,
+    insert: insertUser,
+    update: updateUser,
+    delete: deleteUser
 };

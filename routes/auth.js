@@ -1,11 +1,40 @@
 const router = require('express').Router();
-const queries = require('../db/queries/auth');
+const queries = require('../db/queries/users');
+const passport = require('passport');
 
-router.post('/', function(req, res) {
-    if (req.body.action) {
-        console.log(req.body);
+
+router.post('', function(req, res, next) {
+    if (req.body.action && req.body.user) {
+        if (req.body.action === 'login') {
+            passport.authenticate('local', function(err, user){
+                if (err) {
+                    return next(err);
+                }
+                if (!user) {
+                    return res.redirect('/');
+                }
+                req.logIn(user, function(err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.redirect('/users/' + user.id); 
+                });
+            })(req, res, next);
+        }
+        else if (req.body.action === 'signup') {
+            queries.insert(req.body.user)
+                .then(function(id) {
+                    req.logIn(req.body.user, function() {
+                        res.redirect('/users/' + id);
+                    });
+                }).catch(function(err){
+                    next(err);
+                });
+        }
     }
-    res.status(200).send('ok');
+    else {
+        res.status(500).send('not ok');
+    }
 });
 
 module.exports = router;

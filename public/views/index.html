@@ -33,13 +33,15 @@
             <!--    <img src="../images/garago-logo.svg" alt="Garago Logo">-->
             <!--</div>-->
             <form name="login" action="/auth" method="POST">
-                <span>Email</span>
-                <input class="form-control" type="text" name="user[email]">
-                <span>Password</span>
-                <input class="form-control" type="password" name="user[password]">
+                <label>Email
+                    <input class="form-control" type="text" name="user[email]">
+                </label>
+                <label>Password
+                    <input class="form-control" type="password" name="user[password]">
+                </label>
                 <div class="padded-top center">
-                    <button type="submit" name="action" class="btn btn-primary" value="Login">Login</button>
-                    <button type="submit" name="action" class="btn btn-primary" value="SignUp">Sign up</button>
+                    <button type="submit" name="action" class="btn btn-primary" value="login">Login</button>
+                    <button type="submit" name="action" class="btn btn-primary" value="signup">Sign up</button>
                 </div>
             </form>
         </div>

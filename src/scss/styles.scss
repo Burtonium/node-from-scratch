@@ -1,14 +1,17 @@
 /* Garago theme */
 $garago-blue: #419ed1;
-$garago-more-blue: #2885B8;
-$garago-darker-blue: #0E6B9E;
+$garago-dark-blue: #0E6B9E;
 
 .btn-primary {
     background-color: $garago-blue;
 }
 .btn-primary:active {
-    background-color: $garago-darker-blue;
+    background-color: $garago-dark-blue;
 }
 .btn-primary:hover {
-    background-color: $garago-darker-blue;
+    background-color: $garago-dark-blue;
 }
+.btn-primary:focus {
+    background-color: $garago-dark-blue;
+}
+

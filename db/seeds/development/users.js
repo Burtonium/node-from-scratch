@@ -5,7 +5,6 @@ exports.seed = function(knex, Promise) {
   for (var i = 0; i < 100; ++i) {
     users.push(
       knex(t).insert({
-        username: 'user' + i,
         email: 'user' + i + '@burtonize.me',
         password: 'password'
       })
