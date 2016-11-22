@@ -10,6 +10,22 @@ router.use(function(req, res, next) {
     }
 });
 
+router.use('/:id', function(req, res, next) {
+    users.where({
+        id: req.params.id
+    }).first().then(function(user) {
+        if (user) {
+            req.user = user;
+            next();
+        }
+        else {
+            res.status(404).send('No user found');
+        }
+    }).catch(function(err) {
+        next(err);
+    });
+});
+
 router.get('/', function(req, res, next) {
     users.get()
         .then(function(users) {
@@ -21,20 +37,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-    users.where({
-            id: req.params.id
-        }).first()
-        .then(function(user) {
-            if (user) {
-                res.status(200).json(user);
-            }
-            else {
-                res.sendStatus(404);
-            }
-        })
-        .catch(function(error) {
-            next(error);
-        });
+    res.json(req.user);
 });
 
 router.post('/', function(req, res, next) {
@@ -53,19 +56,15 @@ router.post('/', function(req, res, next) {
 });
 
 router.put('/:id', function(req, res, next) {
-    if (req.body.hasOwnProperty('id')) {
-        return res.status(422).json({
-            error: 'You cannot update the id field'
-        });
+    for (var k in req.user) {
+        req.body[k] = req.body[k] ? req.body[k] : null;
     }
-    users.update(req.params.id, req.body)
-        .then(function() {
-            return users.where({
-                id: req.params.id
-            }).first();
-        })
-        .then(function(show) {
-            res.status(200).json(show);
+
+    delete req.body.id;
+
+    users.update(req.user.id, req.body)
+        .then(function(users) {
+            res.status(200).json(users[0]);
         })
         .catch(function(error) {
             next(error);
@@ -73,20 +72,22 @@ router.put('/:id', function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-    users.where({
-            id: req.params.id
-        }).first()
-        .then(function(user) {
-            users.delete(req.params.id)
-                .then(function() {
-                    res.status(200).json(user);
-                })
-                .catch(function(error) {
-                    next(error);
-                });
-        }).catch(function(error) {
+    users.delete(req.user.id)
+        .then(function() {
+            res.status(200).json(req.user);
+        })
+        .catch(function(error) {
             next(error);
         });
+});
+
+router.patch('/:id', function(req, res, next) {
+    if (req.body.id) {
+        delete req.body.id;
+    }
+    for (var k in req.body) {
+        req.user[k] = req.body[k];
+    }
 });
 
 module.exports = router;

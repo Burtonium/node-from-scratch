@@ -8,6 +8,10 @@ function getAllUsers() {
     return Users().select();
 }
 
+function findOrCreate(user) {
+    return Users().where({email: user.email}).first();
+}
+
 function where(keyPairs) {
     return Users().where(keyPairs);
 }
@@ -17,7 +21,7 @@ function insertUser(user) {
 }
 
 function updateUser(id, updates) {
-    return Users().where('id', parseInt(id)).update(updates);
+    return Users().where('id', parseInt(id)).update(updates, '*');
 }
 
 function deleteUser(id) {
@@ -25,6 +29,7 @@ function deleteUser(id) {
 }
 
 module.exports = {
+    findOrCreate: findOrCreate,
     get: getAllUsers,
     where: where,
     insert: insertUser,

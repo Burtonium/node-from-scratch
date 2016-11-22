@@ -15,6 +15,9 @@
     <link href="css/styles.css" rel="stylesheet">
     <link href="css/landing.css" rel="stylesheet">
     
+    
+    <script src="https://use.fontawesome.com/ea904f1b2d.js"></script>
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -28,10 +31,7 @@
     <div class="landing-background-image"></div>
     <!-- Page Content -->
     <div class="main container">
-        <div class="login-form frost">
-            <!--<div class="landing-logo">-->
-            <!--    <img src="../images/garago-logo.svg" alt="Garago Logo">-->
-            <!--</div>-->
+        <div class="login-form">
             <form name="login" action="/auth" method="POST">
                 <label>Email
                     <input class="form-control" type="text" name="user[email]">
@@ -44,6 +44,15 @@
                     <button type="submit" name="action" class="btn btn-primary" value="signup">Sign up</button>
                 </div>
             </form>
+            <label>Other options</label>
+            <ul>
+                <li>
+                    <a href="/auth/google" class="google-plus">
+                        <button class="btn"><i class="fa fa-google-plus"></i></button>    
+                    </a>
+                </li>
+            </ul>
+            
         </div>
 
     </div>

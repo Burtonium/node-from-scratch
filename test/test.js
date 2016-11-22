@@ -9,9 +9,8 @@ const chaiHttp = require('chai-http');
 const app = require('../app');
 const knex = require('../db/knex');
 const path = '/users/';
+require('./helpers/helpers')(chai);
 chai.use(chaiHttp);
-
-
 
 describe('API Routes', function() {
    
@@ -107,41 +106,35 @@ describe('API Routes', function() {
          var userId = 1;
          var user = {
             email: 'updated@test.me',
-            address: 'Updated address'
+            password: 'ayylmao',
+            address: 'Updated'
          };
          chai.request(app)
             .put(path + userId)
             .send(user)
             .end(function(err, res) {
                expect(err).to.be.a('null');
-               res.body.should.have.property('id');
-               res.body.id.should.equal(userId);
-               
-               res.body.should.have.property('email');
-               res.body.email.should.equal(user.email);
-               
-               res.body.should.have.property('address');
-               res.body.address.should.equal(user.address);
-               
-               res.body.should.have.property('created');
-               res.body.created.should.not.equal('');
+               expect(user).to.intersect(res.body);
                done();
             });
       });
    
       it('should not update the id', function(done) {
+         var userId = 1;
          chai.request(app)
-            .put(path + '1')
+            .put(path + userId)
             .send({
                id: 20,
-               email: ''
+               email: 'also not nullable',
+               password: 'not nullable'
             })
          .end(function(err, res) {
-            expect(err).to.not.be.a('null');
-            res.should.have.status(422);
+            expect(err).to.be.a('null');
+            res.should.have.status(200);
             res.should.be.json; // jshint ignore:line
             res.body.should.be.a('object');
-            res.body.should.have.property('error');
+            res.body.should.have.property('id');
+            res.body.id.should.equal(userId);
             done();
          });
       });

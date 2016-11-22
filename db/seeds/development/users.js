@@ -6,7 +6,8 @@ exports.seed = function(knex, Promise) {
     users.push(
       knex(t).insert({
         email: 'user' + i + '@burtonize.me',
-        password: 'password'
+        password: 'password',
+        address: i + ' Ferguson Street'
       })
     );
   }

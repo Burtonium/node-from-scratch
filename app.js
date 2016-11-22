@@ -3,9 +3,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 const api = require('./routes/api');
 const bodyParser = require('body-parser');
-
 const session = require('express-session');
-
 
 app.use(express.static('public'));
 app.use(express.static('public/views'));

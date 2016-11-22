@@ -2,11 +2,21 @@ const router = require('express').Router();
 const queries = require('../db/queries/users');
 const passport = require('passport');
 
+router.get('/google/callback', passport.authenticate('google', {
+    successRedirect: '/dashboard/',
+    failure: '/'
+}));
+
+router.get('/google', passport.authenticate('google', {
+    scope: ['https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/userinfo.profile'
+    ]
+}));
 
 router.post('', function(req, res, next) {
     if (req.body.action && req.body.user) {
         if (req.body.action === 'login') {
-            passport.authenticate('local', function(err, user){
+            passport.authenticate('local', function(err, user) {
                 if (err) {
                     return next(err);
                 }
@@ -17,7 +27,7 @@ router.post('', function(req, res, next) {
                     if (err) {
                         return next(err);
                     }
-                    res.redirect('/users/' + user.id); 
+                    return res.redirect('/dashboard');
                 });
             })(req, res, next);
         }
@@ -27,7 +37,7 @@ router.post('', function(req, res, next) {
                     req.logIn(req.body.user, function() {
                         res.redirect('/users/' + id);
                     });
-                }).catch(function(err){
+                }).catch(function(err) {
                     next(err);
                 });
         }
