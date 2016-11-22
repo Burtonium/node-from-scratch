@@ -12,11 +12,12 @@ module.exports = function() {
                     email: email
                 }).first()
                 .then(function(user) {
-                    if (user.password === password) {
+                    if (user && user.password === password) {
                         done(null, user);
-                    }
-                    else {
-                        done(null, false, {message: 'Incorrect password'});
+                    } else if (!user) {
+                        done(null, false, {message: 'User not found'});
+                    } else if (user && user.password !== password) {
+                        done(null, false, {message: 'Incorrect passport'});
                     }
                 });
         }));
