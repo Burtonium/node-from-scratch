@@ -85,14 +85,7 @@ describe('API Routes', function() {
                res.body.should.have.property('id');
                res.body.id.should.equal(101);
                
-               res.body.should.have.property('email');
-               res.body.email.should.equal(user.email);
-               
-               res.body.should.have.property('password');
-               res.body.password.should.equal(user.password);
-               
-               res.body.should.have.property('address');
-               res.body.address.should.equal(user.address);
+               user.should.intersect(res.body);
                
                res.body.should.have.property('created');
                res.body.created.should.not.equal('');
@@ -161,5 +154,23 @@ describe('API Routes', function() {
                   });
             });
       });
+   });
+   
+    describe('PATCH /api/v1/users/:id', function() {
+      it('should patch a user', function(done) {
+         var userId = 1;
+         var user = {
+            email: 'updated@test.me'
+         };
+         chai.request(app)
+            .patch(path + userId)
+            .send(user)
+            .end(function(err, res) {
+               expect(err).to.be.a('null');
+               expect(user).to.intersect(res.body);
+               done();
+            });
+      });
+   
    });
 });

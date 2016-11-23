@@ -85,9 +85,13 @@ router.patch('/:id', function(req, res, next) {
     if (req.body.id) {
         delete req.body.id;
     }
-    for (var k in req.body) {
-        req.user[k] = req.body[k];
-    }
+
+    users.update(req.user.id, req.body)
+        .then(function(users) {
+            res.status(200).json(users[0]);
+        }).catch(function(err) {
+            next(err);
+        });
 });
 
 module.exports = router;

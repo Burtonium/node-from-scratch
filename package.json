@@ -8,7 +8,7 @@
     "start": "npm run watch",
     "start:dev": "npm run watch && npm run start:dev",
     "stop": "echo 'stopping'",
-    "test": "mocha test/test.js -u bdd -R spec",
+    "test": "./node_modules/mocha/bin/mocha test/test.js -u bdd -R spec",
     "pretest": "npm run lint",
     "lint": "jshint .",
     "precompile": "rimraf dist/*",
