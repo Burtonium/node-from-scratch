@@ -15,8 +15,6 @@ require('./src/config/passport')(app);
 
 app.use('/', api);
 
-
-
 if (!module.parent) {
     app.listen(port, function(err) {
         if (err) {
