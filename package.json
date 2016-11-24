@@ -4,23 +4,14 @@
   "description": "Learning Node js with this project",
   "main": "app.js",
   "scripts": {
-    "prestart": "npm run lint",
-    "start": "npm run watch",
+    "start": "node app.js",
     "start:dev": "npm run watch && npm run start:dev",
-    "stop": "echo 'stopping'",
     "test": "./node_modules/mocha/bin/mocha test/test.js -u bdd -R spec",
     "pretest": "npm run lint",
     "lint": "jshint .",
-    "precompile": "rimraf dist/*",
-    "compile": "npm run compile:css",
-    "compile:css": "node-sass --output-style compressed -o public/css src/scss",
-    "watch": "npm run watch:css & npm run watch:test & npm run watch:server & npm run watch:browser",
-    "watch:css": "nodemon -e scss -x \"npm run compile:css\"",
+    "watch": "npm run watch:test & npm run watch:server",
     "watch:test": "npm run test -- -w -R min",
     "watch:server": "nodemon --ignore client --ignore public app.js",
-    "watch:browser": "livereload \"src/views, public/css\" -p 8081 & nodemon -w client/js -x \"npm run build\"",
-    "build": "npm run build:bundle",
-    "build:bundle": "echo 'building bundle not implemented'",
     "version:major": "npm version major",
     "version:minor": "npm version minor",
     "version:patch": "npm version patch",
@@ -37,11 +28,6 @@
     "mocha": true,
     "esversion": 6
   },
-  "babel": {
-    "presets": [
-      "latest"
-    ]
-  },
   "author": "Matt Burton",
   "license": "ISC",
   "dependencies": {
@@ -55,17 +41,11 @@
     "pg": "6.1.0"
   },
   "devDependencies": {
-    "babel-cli": "6.16.0",
-    "babel-preset-latest": "6.16.0",
-    "browserify": "13.1.0",
     "chai": "3.5.0",
     "chai-http": "3.0.0",
     "jshint": "2.9.3",
-    "livereload": "0.5.0",
-    "mocha": "3.1.0",
-    "node-sass": "3.10.1",
+    "mocha": "3.1.2",
     "nodemon": "1.10.2",
-    "rimraf": "2.5.4",
     "should": "11.1.0"
   },
   "repository": {

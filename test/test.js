@@ -8,7 +8,7 @@ const expect = chai.expect;
 const chaiHttp = require('chai-http');
 const app = require('../app');
 const knex = require('../db/knex');
-const path = '/users/';
+const path = '/api/v1/users/';
 require('./helpers/helpers')(chai);
 chai.use(chaiHttp);
 
