@@ -18,12 +18,14 @@ describe('API Routes', function() {
       knex.migrate.rollback()
          .then(function() { knex.migrate.latest()
          .then(function() { return knex.seed.run()
-         .then(function() { done(); }); }); });
+         .then(function() { done(); }); }); })
+         .catch(function(err){console.log(err); done();});
    });
    
    afterEach(function(done) {
       knex.migrate.rollback()
-         .then(function() { done(); });
+         .then(function() { done(); })
+         .catch(function(err){console.log(err); done();});
    });
 
    describe('GET ' + path, function() {

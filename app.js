@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 
 app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'https://localhost:4200');
+    res.setHeader('Access-Control-Allow-Origin', 'https://node-from-scratch-burtonium.c9users.io');
   	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   	res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
     next();

@@ -2,12 +2,13 @@ const router = require('express').Router();
 const users = require('../db/queries/users');
 
 router.use(function(req, res, next) {
-    if (!req.user && process.env.NODE_ENV != 'test') {
-        res.redirect('/');
-    }
-    else {
-        next();
-    }
+    // if (!req.user && process.env.NODE_ENV != 'test') {
+    //     res.redirect('/');
+    // }
+    // else {
+    //     next();
+    // }
+    next();
 });
 
 router.use('/:id', function(req, res, next) {
@@ -29,7 +30,7 @@ router.use('/:id', function(req, res, next) {
 router.get('/', function(req, res, next) {
     users.get()
         .then(function(users) {
-            res.status(200).json(users);
+            res.status(200).json({ users: users} );
         })
         .catch(function(error) {
             next(error);
@@ -37,7 +38,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-    res.json(req.user);
+    res.json({user: req.user});
 });
 
 router.post('/', function(req, res, next) {
