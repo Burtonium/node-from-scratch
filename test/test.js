@@ -36,14 +36,16 @@ describe('API Routes', function() {
                expect(err).to.be.a('null');
                res.should.have.status(200);
                res.should.be.json; // jshint ignore:line
-               res.body.should.be.a('array');
-               res.body.length.should.equal(100);
-               res.body[0].should.have.property('id');
-               res.body[0].should.have.property('email');
-               res.body[0].should.have.property('password');
-               res.body[0].should.have.property('address');
-               res.body[0].should.have.property('created');
-               res.body[0].created.should.not.equal('');
+               res.body.should.have.property('users');
+               var users = res.body.users;
+               users.should.be.a('array');
+               users.length.should.equal(100);
+               users[0].should.have.property('id');
+               users[0].should.have.property('email');
+               users[0].should.have.property('password');
+               users[0].should.have.property('address');
+               users[0].should.have.property('created');
+               users[0].created.should.not.equal('');
                done();
             });
       });
@@ -58,12 +60,14 @@ describe('API Routes', function() {
             res.should.have.status(200);
             res.should.be.json; // jshint ignore:line
             res.body.should.be.a('object');
-            res.body.should.have.property('id');
-            res.body.should.have.property('email');
-            res.body.should.have.property('password');
-            res.body.should.have.property('address');
-            res.body.should.have.property('created');
-            res.body.created.should.not.equal('');
+            res.body.should.have.property('user');
+            var user = res.body.user;
+            user.should.have.property('id');
+            user.should.have.property('email');
+            user.should.have.property('password');
+            user.should.have.property('address');
+            user.should.have.property('created');
+            user.created.should.not.equal('');
             done();
          });
       });
@@ -84,13 +88,13 @@ describe('API Routes', function() {
                res.should.have.status(200);
                res.should.be.json; // jshint ignore:line
                res.body.should.be.a('object');
-               res.body.should.have.property('id');
-               res.body.id.should.equal(101);
-               
-               user.should.intersect(res.body);
-               
-               res.body.should.have.property('created');
-               res.body.created.should.not.equal('');
+               res.body.should.have.property('user');
+               var response = res.body.user;
+               response.should.have.property('id');
+               response.id.should.equal(101);
+               user.should.intersect(response);
+               response.should.have.property('created');
+               response.created.should.not.equal('');
                done();
             });
       });
@@ -109,7 +113,8 @@ describe('API Routes', function() {
             .send(user)
             .end(function(err, res) {
                expect(err).to.be.a('null');
-               expect(user).to.intersect(res.body);
+               res.body.should.have.property('user');
+               expect(user).to.intersect(res.body.user);
                done();
             });
       });
@@ -127,9 +132,11 @@ describe('API Routes', function() {
             expect(err).to.be.a('null');
             res.should.have.status(200);
             res.should.be.json; // jshint ignore:line
-            res.body.should.be.a('object');
-            res.body.should.have.property('id');
-            res.body.id.should.equal(userId);
+            res.body.should.have.property('user');
+            var user = res.body.user;
+            user.should.be.a('object');
+            user.should.have.property('id');
+            user.id.should.equal(userId);
             done();
          });
       });
@@ -142,11 +149,14 @@ describe('API Routes', function() {
             .delete(path + userId)
             .end(function(err, response) {
                expect(err).to.be.a('null');
+               response.body.should.have.property('user');
                response.should.have.status(200);
                response.should.be.json; // jshint ignore:line
-               response.body.should.be.a('object');
-               response.body.should.have.property('id');
-               response.body.id.should.be.equal(userId);
+               
+               var user = response.body.user;
+               user.should.be.a('object');
+               user.should.have.property('id');
+               user.id.should.be.equal(userId);
                chai.request(app)
                   .get(path + userId)
                   .end(function(err, res) {
@@ -169,7 +179,8 @@ describe('API Routes', function() {
             .send(user)
             .end(function(err, res) {
                expect(err).to.be.a('null');
-               expect(user).to.intersect(res.body);
+               res.body.should.have.property('user');
+               expect(user).to.intersect(res.body.user);
                done();
             });
       });
