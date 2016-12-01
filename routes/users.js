@@ -57,13 +57,14 @@ router.post('/', function(req, res, next) {
 });
 
 router.put('/:id', function(req, res, next) {
+    delete req.user.created;
+    
+    // nullify missing fields
     for (var k in req.user) {
         req.body[k] = req.body[k] ? req.body[k] : null;
     }
-
-    delete req.body.id;
-
-    users.update(req.user.id, req.body)
+    req.body.id = req.user.id;
+    users.update(req.body)
         .then(function(users) {
             res.status(200).json({user: users[0]});
         })
@@ -83,11 +84,12 @@ router.delete('/:id', function(req, res, next) {
 });
 
 router.patch('/:id', function(req, res, next) {
-    if (req.body.id) {
-        delete req.body.id;
-    }
 
-    users.update(req.user.id, req.body)
+    // can't patch these
+    req.body.id = req.user.id;
+    delete req.body.created;
+
+    users.update(req.body)
         .then(function(users) {
             res.status(200).json({user: users[0]});
         }).catch(function(err) {

@@ -13,6 +13,11 @@ router.get('/google', passport.authenticate('google', {
     ]
 }));
 
+router.post('signin',
+    passport.authenticate('basic'),
+    function(res, req) {
+        res.json(req.user);
+    });
 router.post('', function(req, res, next) {
     if (req.body.action && req.body.user) {
         if (req.body.action === 'login') {
