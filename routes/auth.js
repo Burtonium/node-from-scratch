@@ -1,55 +1,20 @@
 const router = require('express').Router();
-const queries = require('../db/queries/users');
-const passport = require('passport');
+const app = require('express')();
+const passport = require('../authentication/passport')(app);
+const oauth2 = require('../lib/oauth2');
 
 router.get('/google/callback', passport.authenticate('google', {
-    successRedirect: '/dashboard/',
+    successRedirect: '/dashboard',
     failure: '/'
 }));
 
 router.get('/google', passport.authenticate('google', {
-    scope: ['https://www.googleapis.com/auth/userinfo.email',
+    scope: [
+        'https://www.googleapis.com/auth/userinfo.email',
         'https://www.googleapis.com/auth/userinfo.profile'
     ]
 }));
 
-router.post('signin',
-    passport.authenticate('basic'),
-    function(res, req) {
-        res.json(req.user);
-    });
-router.post('', function(req, res, next) {
-    if (req.body.action && req.body.user) {
-        if (req.body.action === 'login') {
-            passport.authenticate('local', function(err, user) {
-                if (err) {
-                    return next(err);
-                }
-                if (!user) {
-                    return res.redirect('/');
-                }
-                req.logIn(user, function(err) {
-                    if (err) {
-                        return next(err);
-                    }
-                    return res.redirect('/dashboard');
-                });
-            })(req, res, next);
-        }
-        else if (req.body.action === 'signup') {
-            queries.insert(req.body.user)
-                .then(function(id) {
-                    req.logIn(req.body.user, function() {
-                        res.redirect('/users/' + id);
-                    });
-                }).catch(function(err) {
-                    next(err);
-                });
-        }
-    }
-    else {
-        res.status(500).send('not ok');
-    }
-});
+app.post('/oauth/token', oauth2.token);
 
-module.exports = router;
+module.exports =  router;

@@ -4,7 +4,7 @@ router.get('/', function(req, res, next) {
     if (!req.user) {
         res.redirect('/');
     } else {
-        res.redirect('/dashboard.html');
+        res.redirect('/dashboard');
     }
 });
 

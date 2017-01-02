@@ -1,6 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const users = require('../../../db/queries/users');
+const users = require('../../db/knexstore')('users');
 
 module.exports = function() {
     passport.use(new GoogleStrategy({

@@ -4,7 +4,7 @@ var users = [];
 for (var i = 0; i < 100; ++i) {
     users.push({
         email: 'user' + i + '@burtonize.me',
-        password: 'password',
+        hashed_password: '9z07yeui3oirto78baosdt7g',
         address: i + ' Ferguson Street'
     });
 }
@@ -22,6 +22,5 @@ module.exports = {
             .then(function() {
                 return Promise.all(users);
             });
-
     }
 };

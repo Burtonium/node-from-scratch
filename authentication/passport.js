@@ -2,7 +2,6 @@ const passport = require('passport');
 
 module.exports = function(app) {
     app.use(passport.initialize());
-    app.use(passport.session());
 
     passport.serializeUser(function(user, done) {
         done(null, user);
@@ -11,7 +10,11 @@ module.exports = function(app) {
     passport.deserializeUser(function(user, done) {
         done(null, user);
     });
-    
-    require('./strategies/local.strategy')();
+
+    require('./strategies/basic.strategy')();
+    require('./strategies/bearer.strategy')();
+    require('./strategies/clientpassword.strategy')();
     require('./strategies/google.strategy')();
+    
+    return passport;
 };

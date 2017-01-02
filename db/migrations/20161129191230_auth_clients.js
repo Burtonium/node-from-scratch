@@ -1,12 +1,15 @@
+var tableName = 'auth_clients';
+
 exports.up = function(knex, Promise) {
-    return knex.schema.createTable('auth_clients', function(table) {
+    return knex.schema.createTable(tableName, function(table) {
         table.increments('id').primary();
         table.string('secret').notNullable();
-        table.string('name').notNullable().unique();
-        table.string('user_id').notNullable();
+        table.string('name').notNullable();
+        table.string('client_id').notNullable().unique().index();
+        table.timestamp('created').defaultTo(knex.fn.now());
     });
 };
 
 exports.down = function(knex, Promise) {
-    return knex.schema.dropTable('auth_clients');
+    return knex.schema.dropTable(tableName);
 };
