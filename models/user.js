@@ -25,14 +25,12 @@ class User extends Authenticatable {
         }
     }
     
-    set password(pass){
-        if(pass){ 
-            this.hashed_password = super.hashSync(pass);
-        }
-    }
-    
     get password() {
         throw new Error("Use authenticate instead.");
+    }
+    
+    set password(pass) {
+        super.password = pass;
     }
 }
 

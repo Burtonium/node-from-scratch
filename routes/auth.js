@@ -15,6 +15,6 @@ router.get('/google', passport.authenticate('google', {
     ]
 }));
 
-app.post('/oauth/token', oauth2.token);
+router.post('/oauth/token', oauth2.token);
 
 module.exports =  router;

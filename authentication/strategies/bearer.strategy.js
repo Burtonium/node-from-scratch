@@ -5,28 +5,28 @@ const users = require('../../db/knexstore')('users');
 const tokenLife = require('../../config').tokenLife;
 
 const verifyToken = (token) => {
-    return Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
         if (Math.round((Date.now() - token.created) / 1000) > tokenLife) {
+            
             tokenLife.deleteWhere({
                 id: token.id
             }).then(function() {
                 reject('Token expired');
             });
-        }
-        else {
-            resolve();
+        } else {
+            resolve(token);
         }
     });
 };
 
 const findUser = (token) => {
     return users.findOne({
-        id: token.id
+        id: token.user_id
     });
 };
 
 module.exports = function() {
-    passport.use(new BearerStrategy(
+    passport.use('bearer', new BearerStrategy(
         function(accessToken, done) {
             accessTokens.findOne({token: accessToken})
                 .then(verifyToken)

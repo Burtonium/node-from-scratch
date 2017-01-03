@@ -21,14 +21,23 @@ class Authenticatable {
     authenticate(password) {
         var self = this;
         return new Promise( function(resolve, reject) {
-            self.hash(password, function(hash) {
-                if (hash == self._hash) {
-                    resolve(self); 
-                } else {
+            bcrypt.compare(password, self.hashed_password, function(err, res){
+                if (err) {
+                    reject(err);
+                }
+                if (!res) {
                     reject('Password mismatch');
+                } else {
+                    resolve(self);
                 }
             });
         });
+    }
+    
+    set password(pass){
+        if(pass){ 
+            this.hashed_password = this.hashSync(pass);
+        }
     }
 }
 

@@ -3,10 +3,11 @@ const users = require('../../db/knexstore')('users');
 const User = require('../../models/user');
 const passport = require('../../authentication/passport')(router);
 
+router.all('*', passport.authenticate('bearer', {session: false}));
+
 const isAuthenticated = function(req, res, next){
     if (req.isAuthenticated()) { 
         return next(null);
-        
     }
     else {
         return next('Unauthorized');
@@ -45,7 +46,7 @@ router.get('/:id', isAuthenticated, function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    let user = new User(req.body);
+    let user = new User(req.body.user || req.body);
     if(!user.valid) {
         next(new Error('User not valid'));
     }
