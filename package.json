@@ -17,9 +17,7 @@
     "version:patch": "npm version patch",
     "push:origin": "git push --tags origin HEAD:master",
     "push:live": "git push production master",
-    "push": "npm run push:origin && npm run push:live",
-    "deploy:prod": "time(bash ./scripts/deployProd.sh)",
-    "test:deploy": "npm t -- -R dot"
+    "push": "npm run push:origin && npm run push:live"
   },
   "jshintConfig": {
     "node": true,
