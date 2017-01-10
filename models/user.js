@@ -1,5 +1,5 @@
 'use strict';
-const assert = require('assert');
+
 const Authenticatable = require('./authenticatable');
 
 class User extends Authenticatable {
@@ -12,25 +12,19 @@ class User extends Authenticatable {
         this.assign(args, 'address');
         this.assign(args, 'created');
         
-        this.password = args.password;
+        super.password = args.password;
     }
     
-    get valid() {
-        return this.hashed_password && this.email;
+    valid() {
+        return this.hashed_password !== undefined &&
+               typeof this.email === 'string' &&
+               this.email.length;
     }
     
     assign(collection, arg) {
         if (collection[arg] !== undefined) {
             this[arg] = collection[arg];
         }
-    }
-    
-    get password() {
-        throw new Error("Use authenticate instead.");
-    }
-    
-    set password(pass) {
-        super.password = pass;
     }
 }
 

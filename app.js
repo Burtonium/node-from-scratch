@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
-const apiRoute = '/api/v1';
 const auth = require('./routes/auth');
 const api = require('./routes/api');
 const bodyParser = require('body-parser');
@@ -20,7 +19,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/', auth);
-app.use(apiRoute, api);
+app.use('/', api);
 
 if (!module.parent) {
   app.listen(port, function(err) {

@@ -23,7 +23,7 @@ class Authenticatable {
         return new Promise( function(resolve, reject) {
             bcrypt.compare(password, self.hashed_password, function(err, res){
                 if (err) {
-                    reject(err);
+                    throw new Error(err);
                 }
                 if (!res) {
                     reject('Password mismatch');
@@ -32,6 +32,10 @@ class Authenticatable {
                 }
             });
         });
+    }
+    
+    get password() {
+        throw new Error("Cannot get password.");
     }
     
     set password(pass){

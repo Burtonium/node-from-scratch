@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "start:dev": "npm run watch",
-    "test": "mocha test/test.js -u bdd -R spec",
+    "test": "mocha test/* -u bdd -R spec",
     "pretest": "npm run lint",
     "lint": "jshint .",
     "watch": "npm run watch:test & npm run watch:server",
