@@ -18,7 +18,6 @@
     "push:origin": "git push --tags origin HEAD:master",
     "push:live": "git push production master",
     "push": "npm run push:origin && npm run push:live",
-    "launch:prod": "open https://burtonize.me",
     "launch:dev": "open https://node-from-scratch-burtonium.c9users.io",
     "deploy:prod": "time(bash ./scripts/deployProd.sh)",
     "test:deploy": "npm t -- -R dot"
