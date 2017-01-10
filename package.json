@@ -1,7 +1,7 @@
 {
   "name": "training-express",
   "version": "1.0.3",
-  "description": "Learning Node js with this project",
+  "description": "Garago V2 API",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
