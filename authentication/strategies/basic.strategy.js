@@ -1,27 +1,21 @@
 // Load required packages
 var passport = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
-var clients = require('../../db/knexstore')('clients');
+var users = require('../../db/knexstore')('users');
+var User = require('../../models/user');
 
-const verifyClient = (client, password) => {
-    return Promise(function(resolve, reject) {
-        if (client.secret === password) {
-            resolve(client);
-        } else {
-            reject('Client not authenticated');
-        }
-    });
+const authenticateUser = (user, password) => {
+    var instance = new User(user);
+    return instance.authenticate(password);
 };
 
 module.exports = function(){
     passport.use(new BasicStrategy(
         function(email, password, done) {
-            clients.findOne({
-                client_id: email
-            })
-            .then((client) => verifyClient(client, password))
-            .then(function(client){
-                return done(null, client);
+            users.findOne({ email: email})
+            .then((user) => authenticateUser(user, password))
+            .then((user) =>{
+                return done(null, user);
             }).catch(err=>{done(err);});
         }
     ));

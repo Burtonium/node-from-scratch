@@ -18,13 +18,8 @@ function generateToken(user, client) {
 }
 
 const authenticateUser = (user, password) => {
-    try {
-        const instance = new User(user);
-        return instance.authenticate(password);
-    }
-    catch (e) {
-        return Promise.reject(e);
-    }
+    const instance = new User(user);
+    return instance.authenticate(password);
 };
 
 const deleteExistingTokens = (user, client) => { 

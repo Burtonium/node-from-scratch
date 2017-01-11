@@ -16,6 +16,5 @@ module.exports = function(app) {
     require('./strategies/clientpassword.strategy')();
     require('./strategies/google.strategy')();
     
-    
     return passport;
 };

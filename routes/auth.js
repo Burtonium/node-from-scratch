@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const app = require('express')();
 const passport = require('../authentication/passport')(app);
-const oauth2 = require('../lib/oauth2');
+const oauth2 = require('../authentication/oauth2');
 
 router.get('/google/callback', passport.authenticate('google', {
     successRedirect: '/dashboard',
