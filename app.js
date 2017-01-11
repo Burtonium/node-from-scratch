@@ -37,10 +37,12 @@ if (process.env.NODE_ENV === 'production') {
     cert: fs.readFileSync('keys/servercert.pem'),
     ca: fs.readFileSync('keys/cacert.pem')
   };
-  https.createServer(options, app).listen(port);
+  https.createServer(options, app).listen(port, function(){
+    console.log('Server running on port:' + port);
+  });
 } 
 
-if (!module.parent) {
+if (!module.parent && process.env.NODE_ENV !== 'production') {
     app.listen(port, function(err) {
       if (err) {
         console.log(err);
