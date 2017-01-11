@@ -1,5 +1,5 @@
 {
-  "name": "training-express",
+  "name": "gv2-be",
   "version": "1.0.3",
   "description": "Garago V2 API",
   "main": "app.js",
