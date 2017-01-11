@@ -1,5 +1,3 @@
-const https = require('https');
-const fs = require('fs');
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
@@ -7,9 +5,6 @@ const auth = require('./routes/auth');
 const api = require('./routes/api');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const helmet = require('helmet');
-
-app.use(helmet());
 
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'https://node-from-scratch-burtonium.c9users.io');
@@ -31,18 +26,7 @@ app.get('/', function(req,res){
 });
 
 
-if (process.env.NODE_ENV === 'production') {
-  const options = {    
-    key: fs.readFileSync('keys/serverkey.pem'), 
-    cert: fs.readFileSync('keys/servercert.pem'),
-    ca: fs.readFileSync('keys/cacert.pem')
-  };
-  https.createServer(options, app).listen(port, function(){
-    console.log('Server running on port:' + port);
-  });
-} 
-
-if (!module.parent && process.env.NODE_ENV !== 'production') {
+if (!module.parent) {
     app.listen(port, function(err) {
       if (err) {
         console.log(err);
@@ -56,7 +40,6 @@ if (process.env.NODE_ENV === 'test' ||
   process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
-
 
 // production error handler
 // app.use(function(err, req, res, next) {
