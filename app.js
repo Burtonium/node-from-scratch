@@ -7,6 +7,9 @@ const auth = require('./routes/auth');
 const api = require('./routes/api');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const helmet = require('helmet');
+
+app.use(helmet());
 
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'https://node-from-scratch-burtonium.c9users.io');
@@ -30,14 +33,14 @@ app.get('/', function(req,res){
 
 if (process.env.NODE_ENV === 'production') {
   const options = {    
-    key: fs.readFileSync('server-key.pem'), 
-    cert: fs.readFileSync('server-crt.pem'),
-    ca: fs.readFileSync('ca-crt.pem')
+    key: fs.readFileSync('keys/server-key.pem'), 
+    cert: fs.readFileSync('keys/server-csr.pem'),
+    ca: fs.readFileSync('keys/ca-crt.pem')
   };
   https.createServer(options, app).listen(port);
 } 
 
-if (!module.parent) {
+if (!module.parent && process.env.NODE_ENV !== 'production') {
     app.listen(port, function(err) {
       if (err) {
         console.log(err);
