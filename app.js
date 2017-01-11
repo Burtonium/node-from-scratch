@@ -33,14 +33,14 @@ app.get('/', function(req,res){
 
 if (process.env.NODE_ENV === 'production') {
   const options = {    
-    key: fs.readFileSync('keys/server-key.pem'), 
-    cert: fs.readFileSync('keys/server-csr.pem'),
-    ca: fs.readFileSync('keys/ca-crt.pem')
+    key: fs.readFileSync('keys/serverkey.pem'), 
+    cert: fs.readFileSync('keys/servercert.pem'),
+    ca: fs.readFileSync('keys/cacert.pem')
   };
   https.createServer(options, app).listen(port);
 } 
 
-if (!module.parent && process.env.NODE_ENV !== 'production') {
+if (!module.parent) {
     app.listen(port, function(err) {
       if (err) {
         console.log(err);
