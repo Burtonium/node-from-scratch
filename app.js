@@ -1,3 +1,5 @@
+const https = require('https');
+const fs = require('fs');
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
@@ -21,13 +23,26 @@ app.use(bodyParser.urlencoded({
 app.use('/', auth);
 app.use('/', api);
 
+app.get('/', function(req,res){
+  res.send('Welcome to the Garago V2 api');
+});
+
+const options = {    
+  key: fs.readFileSync('server-key.pem'), 
+  cert: fs.readFileSync('server-crt.pem'),
+  ca: fs.readFileSync('ca-crt.pem')
+};
+
 if (!module.parent) {
-  app.listen(port, function(err) {
-    if (err) {
-      console.log(err);
-    }
-    console.log('running server on port ' + port);
-  });
+  const server = process.env.NODE_ENV === 'production' ? 
+        https.createServer(options, app) : app;
+
+    server.listen(port, function(err) {
+      if (err) {
+        console.log(err);
+      }
+      console.log('running server on port ' + port);
+    });
 }
 
 // dev error handler
@@ -38,12 +53,12 @@ if (process.env.NODE_ENV === 'test' ||
 
 
 // production error handler
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.json({
-    message: err.message,
-    error: {}
-  });
-});
+// app.use(function(err, req, res, next) {
+//   res.status(err.status || 500);
+//   res.json({
+//     message: err.message,
+//     error: {}
+//   });
+// });
 
 module.exports = app;
