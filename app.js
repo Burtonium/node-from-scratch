@@ -27,17 +27,18 @@ app.get('/', function(req,res){
   res.send('Welcome to the Garago V2 api');
 });
 
-const options = {    
-  key: fs.readFileSync('server-key.pem'), 
-  cert: fs.readFileSync('server-crt.pem'),
-  ca: fs.readFileSync('ca-crt.pem')
-};
+
+if (process.env.NODE_ENV === 'production') {
+  const options = {    
+    key: fs.readFileSync('server-key.pem'), 
+    cert: fs.readFileSync('server-crt.pem'),
+    ca: fs.readFileSync('ca-crt.pem')
+  };
+  https.createServer(options, app).listen(port);
+} 
 
 if (!module.parent) {
-  const server = process.env.NODE_ENV === 'production' ? 
-        https.createServer(options, app) : app;
-
-    server.listen(port, function(err) {
+    app.listen(port, function(err) {
       if (err) {
         console.log(err);
       }

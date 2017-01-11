@@ -33,7 +33,7 @@ module.exports = function() {
                 .then(findUser)
                 .then(function(user) {
                     done(null, user);
-                }).catch(err => {
+                }).catch((err) => {
                     done(null, false, err);
                 });
         }));

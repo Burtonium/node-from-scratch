@@ -12,9 +12,9 @@ const authenticateUser = (user, password) => {
 module.exports = function(){
     passport.use(new BasicStrategy(
         function(email, password, done) {
-            users.findOne({ email: email})
+            users.findOne({email})
             .then((user) => authenticateUser(user, password))
-            .then((user) =>{
+            .then((user) => {
                 return done(null, user);
             }).catch(err=>{done(err);});
         }

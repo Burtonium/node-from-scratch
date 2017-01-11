@@ -39,11 +39,11 @@ const createAndSaveNewTokens = (user, client) => {
 
 server.exchange(oauth2orize.exchange.password(
     function(client, email, password, scope, done) {
-        users.findOne({email: email})
-            .then(user => authenticateUser(user, password)) 
-            .then(user => deleteExistingTokens(user, client)) 
-            .then(user => createAndSaveNewTokens(user, client)) 
-            .then(function(results){
+        users.findOne({email})
+            .then((user) => authenticateUser(user, password)) 
+            .then((user) => deleteExistingTokens(user, client)) 
+            .then((user) => createAndSaveNewTokens(user, client)) 
+            .then((results) => {
                 done(null, results[0], results[1], {'expires_in': tokenLife});
             }).catch(err => {done(err);});
     }));
@@ -54,7 +54,7 @@ server.exchange(oauth2orize.exchange.refreshToken(
             .then(token => users.findOne({id: token.user_id}))
             .then(user => deleteExistingTokens(user, client))
             .then(user => createAndSaveNewTokens(user, client))
-            .then(function(results){
+            .then((results) => {
                 done(null, results[0], results[1], {'expires_in': tokenLife});
             }).catch(err => {done(err);});
 }));
