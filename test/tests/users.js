@@ -10,12 +10,13 @@ const should = chai.should();
 const expect = chai.expect;
 const chaiHttp = require('chai-http');
 const chaiAsPromised = require('chai-as-promised');
-const app = require('../app');
-const knex = require('../db/knex');
+const app = require('../../app');
+const knex = require('../../db/knex');
 const path = '/users/';
-const users = require('../db/knexstore')('users');
+const users = require('../../db/knexstore')('users');
+const User = require('../../models/user');
 
-require('./helpers/helpers')(chai);
+require('../helpers/helpers')(chai);
 
 chai.use(chaiHttp);
 chai.use(chaiAsPromised);
@@ -218,9 +219,6 @@ describe('API Routes', function() {
 
     });
 });
-
-
-const User = require('../models/user');
 
 describe('User Model', function() {
     var validUser = {};
