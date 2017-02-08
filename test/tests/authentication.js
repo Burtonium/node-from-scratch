@@ -9,20 +9,23 @@ const chai = require('chai');
 const expect = chai.expect;
 const chaiHttp = require('chai-http');
 const app = require('../../app');
-const knex = require('../../db/knex');
 const users = require('../../db/knexstore')('users');
 const User = require('../../models/user');
-const tokenPath = '/oauth/token';
+const tokenPath = '/v1/oauth/token/';
 
-var testUser = {};
-describe('Authorization Routes', function() {
+var testUser = {email: "test@test.ca", password: "Testme1"};
+describe.skip('Authorization Routes', function() {
     before(function(){
-        testUser = new User({email: "test@test.ca", password: "Testme1"});
-        users.insert(testUser);
+        users.insert(new User(testUser));
     });
     describe('GET ' + tokenPath + '', function(){
         it('should return a token', function(done){
-          done(); 
+          chai.request(app)
+          .get(tokenPath)
+          .auth(testUser.email, testUser.password)
+          .end((err, res) => {
+              expect(err).to.be.a('null');
+          });
         });
     });
 });

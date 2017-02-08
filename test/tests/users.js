@@ -12,7 +12,7 @@ const chaiHttp = require('chai-http');
 const chaiAsPromised = require('chai-as-promised');
 const app = require('../../app');
 const knex = require('../../db/knex');
-const path = '/users/';
+const path = '/v1/users/';
 const users = require('../../db/knexstore')('users');
 const User = require('../../models/user');
 
@@ -102,7 +102,7 @@ describe('API Routes', function() {
                 .send(user)
                 .end(function(err, res) {
                     expect(err).to.be.a('null');
-                    res.should.have.status(200);
+                    res.should.have.status(201);
                     res.should.be.json; // jshint ignore:line
                     res.body.should.be.a('object');
                     res.body.should.have.property('user');

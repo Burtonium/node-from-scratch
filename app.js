@@ -5,9 +5,10 @@ const auth = require('./routes/auth');
 const api = require('./routes/api');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const version = require('./package.json').version;
 
 app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://node-from-scratch-burtonium.c9users.io');
+  res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL || 'https://vue-frontend-burtonium.c9users.io');
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, PATCH, DELETE, OPTIONS');
   next();
@@ -19,10 +20,10 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/', auth);
-app.use('/', api);
+app.use('/v1', api);
 
-app.get('/', function(req,res){
-  res.send('Welcome to the Garago V2 api');
+app.get('/v1', function(req,res){
+  res.send('Welcome to the Garago V2 API v' + version);
 });
 
 

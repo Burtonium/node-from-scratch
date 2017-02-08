@@ -44,18 +44,20 @@ router.get('/:id', isAuthenticated, function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
+    
     let user = new User(req.body.user || req.body);
+    
     if(!user.valid()) {
-        res.status(400).send('Invalid user');
+        res.status(400).send(user.errors || 'Invalid User');
     }
     
     users.insert(user)
         .then(function(insertedRecords) {
             let user = insertedRecords[0];
             delete user.hashed_password;
-            res.status(200).json({user: user});
+            res.status(201).json({user: user});
         })
-        .catch(function(err) {
+        .catch((err) => {
             next(err);
         });
 });
