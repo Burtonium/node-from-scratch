@@ -9,8 +9,6 @@ for (var i = 0; i < 100; ++i) {
     });
 }
 
-users.push({ email: 'test@test.ca', hashed_password:'hashed_password'});
-
 module.exports = {
     seed(knex) {
 

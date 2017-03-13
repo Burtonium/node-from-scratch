@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'test';
 const Mocha = require('mocha');
 const mocha = new Mocha(); // jshint ignore:line
 const fs = require('fs');

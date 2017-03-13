@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
+const passport = require('./authentication/passport')(app);
+const auth = require('./routes/auth')(passport);
+const api = require('./routes/api')(passport);
 const port = process.env.PORT || 8080;
-const auth = require('./routes/auth');
-const api = require('./routes/api');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const version = require('./package.json').version;

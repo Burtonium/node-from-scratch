@@ -14,6 +14,7 @@ const app = require('../../app');
 const knex = require('../../db/knex');
 const path = '/v1/users/';
 const users = require('../../db/knexstore')('users');
+const access = require('../../db/knexstore')('access_tokens');
 const User = require('../../models/user');
 
 require('../helpers/helpers')(chai);
@@ -21,13 +22,9 @@ require('../helpers/helpers')(chai);
 chai.use(chaiHttp);
 chai.use(chaiAsPromised);
 
-// Authentication override
-app.request.isAuthenticated = function() {
-    return true;
-};
-
 describe('API Routes', function() {
-    beforeEach(function(done) {
+
+    beforeEach((done) => {
         knex.migrate.rollback()
             .then(function() { knex.migrate.latest()
             .then(function() { return knex.seed.run()
@@ -38,7 +35,7 @@ describe('API Routes', function() {
             });
     });
 
-    afterEach(function(done) {
+    afterEach((done) => {
         knex.migrate.rollback()
             .then(function() {
                 done();
@@ -48,7 +45,7 @@ describe('API Routes', function() {
                 done();
             });
     });
-
+    
     describe('GET ' + path, function() {
         it('should return all users', function(done) {
             users.findAll().then(function(expected) {
@@ -69,7 +66,7 @@ describe('API Routes', function() {
         });
     });
 
-    describe('GET ' + path + '/:id', function() {
+    describe('GET ' + path + ':id', function() {
         it('should return a single user', function(done) {
             users.findOne().then(function(expected) {
                 expected.created = expected.created.toISOString();
@@ -281,3 +278,4 @@ describe('User Model', function() {
         });
     });
 });
+

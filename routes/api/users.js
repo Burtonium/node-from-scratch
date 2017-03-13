@@ -1,19 +1,29 @@
 const router = require('express').Router();
 const users = require('../../db/knexstore')('users');
 const User = require('../../models/user');
-const passport = require('../../authentication/passport')(router);
+const passport = require('passport');
 
-const isAuthenticated = function(req, res, next){
+
+// TODO make this const
+var authenticate = [passport.authenticate(['bearer'], {session: false}), (req, res, next) => {
+    console.log(process.env.NODE_ENV);
     if (req.isAuthenticated()) { 
         return next(null);
     }
     else {
-        return res.status(401).send('Unauthorized');
-        
+        return res.status(401).send('Unauthorized suh dude');
     }
-};
+}];
 
-router.use('/:id', isAuthenticated, function(req, res, next) {
+// TODO please remove me and override me somehow in testing
+if (process.env.NODE_ENV === 'test') {
+    authenticate = (req, res, next) => {
+        return next(null);
+    };
+}
+
+
+router.use('/:id', authenticate, function(req, res, next) {
     users.findWhere({
         id: req.params.id
     }).first().then(function(user) {
@@ -29,7 +39,7 @@ router.use('/:id', isAuthenticated, function(req, res, next) {
     });
 });
 
-router.get('/', isAuthenticated, function(req, res, next) {
+router.get('/', authenticate, function(req, res, next) {
     users.findAll()
         .then(function(users) {
             res.status(200).json({ users: users} );
@@ -39,20 +49,28 @@ router.get('/', isAuthenticated, function(req, res, next) {
         });
 });
 
-router.get('/:id', isAuthenticated, function(req, res, next) {
+router.get('/:id', authenticate, function(req, res, next) {
     res.json({user: req.user});
 });
 
 router.post('/', function(req, res, next) {
-    
-    let user = new User(req.body.user || req.body);
+    let args = req.body.user || req.body;
+    let user = new User(args);
     
     if(!user.valid()) {
         res.status(400).send(user.errors || 'Invalid User');
     }
     
-    users.insert(user)
-        .then(function(insertedRecords) {
+    users.findOne({email: user.email})
+        .then((found) => {
+            if (found){
+                res.status(409).send('User exists');
+                return Promise.reject();
+            } else {
+                return users.insert(user);
+            }
+        })
+        .then((insertedRecords) => {
             let user = insertedRecords[0];
             delete user.hashed_password;
             res.status(201).json({user: user});
@@ -62,7 +80,7 @@ router.post('/', function(req, res, next) {
         });
 });
 
-router.put('/:id', isAuthenticated, function(req, res, next) {
+router.put('/:id', authenticate, function(req, res, next) {
     delete req.user.created;
     
     // nullify missing fields
@@ -88,7 +106,7 @@ router.put('/:id', isAuthenticated, function(req, res, next) {
         });
 });
 
-router.delete('/:id', isAuthenticated, function(req, res, next) {
+router.delete('/:id', authenticate, function(req, res, next) {
     users.deleteWhere({id: req.user.id})
         .then(function() {
             res.status(200).json({user: req.user});
@@ -98,7 +116,7 @@ router.delete('/:id', isAuthenticated, function(req, res, next) {
         });
 });
 
-router.patch('/:id', isAuthenticated, function(req, res, next) {
+router.patch('/:id', authenticate, function(req, res, next) {
 
     // can't patch these
     req.body.id = req.user.id;

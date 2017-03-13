@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
             .references('id').inTable('users');
         table.integer('client_id').notNullable().index()
             .references('id').inTable('auth_clients');
-        table.string('token').notNullable().unique();
+        table.string('token').notNullable().unique().index();
         table.timestamp('created').defaultTo(knex.fn.now());
     });
 };

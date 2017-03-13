@@ -5,9 +5,11 @@ const users = require('../../db/knexstore')('users');
 const tokenLife = require('../../config').tokenLife;
 
 const verifyToken = (token) => {
-    return new Promise(function(resolve, reject) {
+    if (!token) {
+        return Promise.reject('Token not found');
+    }
+    return new Promise((resolve, reject) => {
         if (Math.round((Date.now() - token.created) / 1000) > tokenLife) {
-            
             tokenLife.deleteWhere({
                 id: token.id
             }).then(function() {
@@ -25,13 +27,13 @@ const findUser = (token) => {
     });
 };
 
-module.exports = function() {
+module.exports = () => {
     passport.use('bearer', new BearerStrategy(
-        function(accessToken, done) {
+        (accessToken, done) => {
             accessTokens.findOne({token: accessToken})
                 .then(verifyToken)
                 .then(findUser)
-                .then(function(user) {
+                .then((user) => {
                     done(null, user);
                 }).catch((err) => {
                     done(null, false, err);
